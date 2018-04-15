@@ -36,11 +36,3 @@ Based on the NUnit framework and stored on the NAC.TESTS project, under the Unit
 
 Each of these files represents a chunk of the OO representation of the business logic and contains individual tests pertaining said logic, failling and successfull use cases as appropriate
 
-### Unit Tests
-Based on the NUnit framework and stored on the NAC.TESTS project, under the Unit folder you will find the following Test classes
-1. BoardTests.cs
-2. GameTests.cs
-3. PlayerTests.cs
-
-Each of these files represents a chunk of the OO representation of the business logic and contains individual tests pertaining said logic, failling and successfull use cases as appropriate
-
