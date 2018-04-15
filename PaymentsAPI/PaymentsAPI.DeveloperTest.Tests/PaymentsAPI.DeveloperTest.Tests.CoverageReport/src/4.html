@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>D:\Projects\Jobs\ClearBank\ClearBank.DeveloperTest.Tests\Services\RulesServiceTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css"/>
+</head>
+<body>
+<pre id="content" class="source-code">
+using System;
+using ClearBank.DeveloperTest.Services;
+using ClearBank.DeveloperTest.Types;
+using NUnit.Framework;
+
+namespace ClearBank.DeveloperTest.Tests.Services
+{
+    [TestFixture]
+    public class RulesServiceTests
+    {
+        // For brevity I am not mocking the logservice here as it is just a stub
+        private readonly IRulesService _service = new RulesService(new LogService());
+
+        [Test]
+        public void NullAccountFails()
+        {
+            // Test if FasterPayments payment fails (unauthorized payment scheme)
+            var result = _service.IsMovementAuthorized(null, PaymentScheme.FasterPayments, 5000);
+
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void TestFasterPaymentsFails()
+        {
+            // Test if FasterPayments payment fails (unauthorized payment scheme)
+            var result = _service.IsMovementAuthorized(new Account
+            {
+                AllowedPaymentSchemes = AllowedPaymentSchemes.Bacs,
+                Balance = 5000
+            }, PaymentScheme.FasterPayments, 5000);
+
+            Assert.IsFalse(result);
+
+            // Test if FasterPayments payment fails (insuficient balance)
+            result = _service.IsMovementAuthorized(new Account
+            {
+                AllowedPaymentSchemes = AllowedPaymentSchemes.Bacs,
+                Balance = 5000
+            }, PaymentScheme.FasterPayments, 5001);
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void TestBacsSucceeds()
+        {
+            // Test if Bacs payment succeeds
+            var result = _service.IsMovementAuthorized(new Account
+            {
+                AllowedPaymentSchemes = AllowedPaymentSchemes.Bacs,
+                Balance = 5000
+            }, PaymentScheme.Bacs, 5000);
+
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void TestBacsFails()
+        {
+            // Test if Bacs payment fails (unauthorized PaymentScheme)
+            var result = _service.IsMovementAuthorized(new Account
+            {
+                AllowedPaymentSchemes = AllowedPaymentSchemes.FasterPayments,
+                Balance = 5000
+            }, PaymentScheme.Bacs, 5000);
+
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void TestFasterPaymentsSucceeds()
+        {
+            // Test if FasterPayments payment succeeds
+            var result = _service.IsMovementAuthorized(new Account
+            {
+                AllowedPaymentSchemes = AllowedPaymentSchemes.FasterPayments,
+                Balance = 5000
+            }, PaymentScheme.FasterPayments, 5000);
+
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void TestChapsSucceeds()
+        {
+            // Test if Chaps payment succeeds
+            var result = _service.IsMovementAuthorized(new Account
+            {
+                AllowedPaymentSchemes = AllowedPaymentSchemes.Chaps,
+                Balance = 5000,
+                Status = AccountStatus.Live
+            }, PaymentScheme.Chaps, 5000);
+
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void TestChapsFails()
+        {
+            // Test if Chaps payment fails (unauthorized payment scheme)
+            var result = _service.IsMovementAuthorized(new Account
+            {
+                AllowedPaymentSchemes = AllowedPaymentSchemes.Bacs,
+                Balance = 5000,
+                Status = AccountStatus.Live
+            }, PaymentScheme.Chaps, 5000);
+
+            Assert.IsFalse(result);
+
+            // Test if Chaps payment fails (wrong account status)
+            result = _service.IsMovementAuthorized(new Account
+            {
+                AllowedPaymentSchemes = AllowedPaymentSchemes.Bacs,
+                Balance = 5000,
+                Status = AccountStatus.Disabled
+            }, PaymentScheme.Chaps, 5000);
+
+            Assert.IsFalse(result);
+
+            // Test if Chaps payment fails (wrong account status)
+            result = _service.IsMovementAuthorized(new Account
+            {
+                AllowedPaymentSchemes = AllowedPaymentSchemes.Bacs,
+                Balance = 5000,
+                Status = AccountStatus.InboundPaymentsOnly
+            }, PaymentScheme.Chaps, 5000);
+
+            Assert.IsFalse(result);
+        }
+    }
+}
+
+    </pre>
+<script type="text/javascript">
+    highlightRanges([
+        [12, 9, 12, 86, 1], [16, 9, 16, 10, 1], [18, 13, 18, 98, 1], [20, 13, 20, 36, 1], [21, 9, 21, 10, 1],
+        [25, 9, 25, 10, 1], [27, 13, 31, 52, 1], [33, 13, 33, 36, 1], [36, 13, 40, 52, 1], [41, 13, 41, 36, 1],
+        [42, 9, 42, 10, 1], [46, 9, 46, 10, 1], [48, 13, 52, 42, 1], [54, 13, 54, 35, 1], [55, 9, 55, 10, 1],
+        [59, 9, 59, 10, 1], [61, 13, 65, 42, 1], [67, 13, 67, 36, 1], [68, 9, 68, 10, 1], [72, 9, 72, 10, 1],
+        [74, 13, 78, 52, 1], [80, 13, 80, 35, 1], [81, 9, 81, 10, 1], [85, 9, 85, 10, 1], [87, 13, 92, 43, 1],
+        [94, 13, 94, 35, 1], [95, 9, 95, 10, 1], [99, 9, 99, 10, 1], [101, 13, 106, 43, 1], [108, 13, 108, 36, 1],
+        [111, 13, 116, 43, 1], [118, 13, 118, 36, 1], [121, 13, 126, 43, 1], [128, 13, 128, 36, 1], [129, 9, 129, 10, 1]
+    ]);
+</script>
+</body>
+</html>

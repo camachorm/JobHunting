@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>D:\Projects\Jobs\ClearBank\ClearBank.DeveloperTest\Types\Account.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css"/>
+</head>
+<body>
+<pre id="content" class="source-code">
+namespace ClearBank.DeveloperTest.Types
+{
+    public class Account
+    {
+        public string AccountNumber { get; set; }
+        public decimal Balance { get; set; }
+        public AccountStatus Status { get; set; }
+        public AllowedPaymentSchemes AllowedPaymentSchemes { get; set; }
+
+        public bool HasValidBalance(decimal transactionValue)
+        {
+            return Balance &gt;= transactionValue;
+        }
+    }
+}
+
+    </pre>
+<script type="text/javascript">
+    highlightRanges([[11, 9, 11, 10, 1], [12, 13, 12, 48, 1], [13, 9, 13, 10, 1]]);
+</script>
+</body>
+</html>

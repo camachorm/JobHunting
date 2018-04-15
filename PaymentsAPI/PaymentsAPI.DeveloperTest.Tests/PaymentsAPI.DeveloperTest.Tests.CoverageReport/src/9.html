@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>D:\Projects\Jobs\ClearBank\ClearBank.DeveloperTest\Services\LogService.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css"/>
+</head>
+<body>
+<pre id="content" class="source-code">
+using System;
+using ClearBank.DeveloperTest.Types;
+
+namespace ClearBank.DeveloperTest.Services
+{
+    /// &lt;summary&gt;
+    /// We provide an application wide log service so that we can customize log handling at our bespoke level.
+    /// For brevity I will skip expanding on it but I would point out that Logging Strategy is a complex topic that brings up 
+    /// discussions around many topics, including data sensitivity, data security, and support needs for future customer care
+    /// &lt;/summary&gt;
+    public class LogService: ILogService
+    {
+        public void LogException(Exception e)
+        {
+            // Code not included for brevity
+        }
+
+        /// &lt;summary&gt;
+        /// We use strong-types parameters intentionally for enforcing specific handling, as and when the generalization surfaces,
+        /// we should add a generic method based on a common interface across Request/Result object types
+        /// &lt;/summary&gt;
+        public void LogOperation(MakePaymentRequest request, MakePaymentResult result)
+        {
+            // Code not included for brevity
+        }
+    }
+}
+
+    </pre>
+<script type="text/javascript">
+    highlightRanges([[14, 9, 14, 10, 1], [16, 9, 16, 10, 1], [23, 9, 23, 10, 1], [25, 9, 25, 10, 1]]);
+</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>D:\Projects\Jobs\ClearBank\ClearBank.DeveloperTest\Services\DataStoreService.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css"/>
+</head>
+<body>
+<pre id="content" class="source-code">
+using System;
+using System.Configuration;
+using ClearBank.DeveloperTest.Data;
+
+namespace ClearBank.DeveloperTest.Services
+{
+    public class DataStoreService : IDataStoreService
+    {
+        private string StoreType { get; }
+
+        public DataStoreService(): this(ConfigurationManager.AppSettings[&quot;DataStoreType&quot;])
+        {
+        }
+
+        public DataStoreService(DataStoreType type) : this(Enum.GetName(typeof(DataStoreType), type))
+        {
+        }
+
+        private DataStoreService(string dataStoreType)
+        {
+            StoreType = dataStoreType;
+        }
+
+        public IAccountDataStore GetAccountDataStore()
+        {
+            return StoreType != &quot;Backup&quot;
+                ? (IAccountDataStore) new AccountDataStore()
+                : new BackupAccountDataStore();
+        }
+
+        public enum DataStoreType
+        {
+            Backup,
+            Live
+        }
+    }
+}
+
+    </pre>
+<script type="text/javascript">
+    highlightRanges([
+        [9, 36, 9, 40, 1], [15, 55, 15, 102, 1], [16, 9, 16, 10, 1], [17, 9, 17, 10, 1], [19, 9, 19, 55, 1],
+        [20, 9, 20, 10, 1], [21, 13, 21, 39, 1], [22, 9, 22, 10, 1], [25, 9, 25, 10, 1], [26, 13, 28, 48, 1],
+        [29, 9, 29, 10, 1]
+    ]);
+</script>
+</body>
+</html>

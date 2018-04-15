@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>D:\Projects\Jobs\ClearBank\ClearBank.DeveloperTest\Services\PaymentService.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css"/>
+</head>
+<body>
+<pre id="content" class="source-code">
+using System.Data;
+using ClearBank.DeveloperTest.Data;
+using ClearBank.DeveloperTest.Types;
+
+namespace ClearBank.DeveloperTest.Services
+{
+    public class PaymentService : IPaymentService
+    {
+        private IDataStoreService DataStoreService { get; }
+        private ILogService LogService { get; }
+        private IRulesService RulesService { get; }
+
+        /// &lt;summary&gt;
+        /// By applying dependency injection we make the purpose of the service more clear and segment the additional responsitibilities
+        /// into injectable components
+        /// &lt;/summary&gt;
+        public PaymentService(IDataStoreService dataStoreService, ILogService logService, IRulesService rulesService)
+        {
+            DataStoreService = dataStoreService;
+            LogService = logService;
+            RulesService = rulesService;
+        }
+
+        public MakePaymentResult MakePayment(MakePaymentRequest request)
+        {
+            // Although the implementation of the datastores is quite straightforward, we will more likely than not, want to expand it 
+            // by making it runtime configurable, in a more dynamic fashion than an app.config file
+            IAccountDataStore dataStore = DataStoreService.GetAccountDataStore();
+
+            Account account = dataStore.GetAccount(request.DebtorAccountNumber);
+
+            var result = new MakePaymentResult
+            {
+                Success = RulesService.IsMovementAuthorized(account, request.PaymentScheme, request.Amount)
+            };
+
+            if (!result.Success)
+            {
+                LogService.LogException(new ConstraintException(&quot;Unable to make payment, rules engine rejected the operation&quot;));
+                return result;
+            }
+
+            account.Balance -= request.Amount;
+
+            // Update debtor account
+            dataStore.UpdateAccount(account);
+            // Question pending: does the creditor account not need to have the funds deposited?
+
+            // Log the successfull operation
+            LogService.LogOperation(request, result);
+
+            return result;
+        }
+    }
+}
+
+    </pre>
+<script type="text/javascript">
+    highlightRanges([
+        [9, 54, 9, 58, 1], [10, 42, 10, 46, 1], [11, 46, 11, 50, 1], [17, 9, 17, 118, 1], [18, 9, 18, 10, 1],
+        [19, 13, 19, 49, 1], [20, 13, 20, 37, 1], [21, 13, 21, 41, 1], [22, 9, 22, 10, 1], [25, 9, 25, 10, 1],
+        [28, 13, 28, 82, 1], [30, 13, 30, 81, 1], [32, 13, 35, 15, 1], [37, 13, 37, 33, 1], [38, 13, 38, 14, 1],
+        [39, 17, 39, 129, 1], [40, 17, 40, 31, 1], [43, 13, 43, 47, 1], [46, 13, 46, 46, 1], [50, 13, 50, 54, 1],
+        [52, 13, 52, 27, 1], [53, 9, 53, 10, 1]
+    ]);
+</script>
+</body>
+</html>

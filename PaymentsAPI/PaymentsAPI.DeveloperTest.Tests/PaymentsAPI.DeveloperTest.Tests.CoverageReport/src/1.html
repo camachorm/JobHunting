@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>D:\Projects\Jobs\ClearBank\ClearBank.DeveloperTest.Tests\Services\DataStoreServiceTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css"/>
+</head>
+<body>
+<pre id="content" class="source-code">
+using ClearBank.DeveloperTest.Data;
+using ClearBank.DeveloperTest.Services;
+using NUnit.Framework;
+
+namespace ClearBank.DeveloperTest.Tests.Services
+{
+
+    /// &lt;summary&gt;
+    /// Simple as this testing suite may look, it guarantees the maintenance of the contract between the interface and the expected results,
+    /// making it mandatory for easing code maintenance across time
+    /// &lt;/summary&gt;
+    [TestFixture]
+    class DataStoreServiceTests
+    {
+
+        [Test]
+        public void GetAccountDataStoreDoesNotReturnBackupDataStoreTest()
+        {
+            var result = GetDataStoreService(DataStoreService.DataStoreType.Live).GetAccountDataStore();
+            Assert.IsNotNull(result);
+            Assert.IsNotInstanceOf&lt;BackupAccountDataStore&gt;(result);
+            Assert.IsInstanceOf&lt;AccountDataStore&gt;(result);
+        }
+
+        [Test]
+        public void GetAccountDataStoreDoesNotReturnLiveDataStoreTest()
+        {
+            var result = GetDataStoreService(DataStoreService.DataStoreType.Backup).GetAccountDataStore();
+            Assert.IsNotNull(result);
+            Assert.IsNotInstanceOf&lt;AccountDataStore&gt;(result);
+            Assert.IsInstanceOf&lt;BackupAccountDataStore&gt;(result);
+        }
+
+        private IDataStoreService GetDataStoreService(DataStoreService.DataStoreType dataStoreType)
+        {
+            return new DataStoreService(dataStoreType);
+        }
+    }
+}
+
+    </pre>
+<script type="text/javascript">
+    highlightRanges([
+        [18, 9, 18, 10, 1], [19, 13, 19, 105, 1], [20, 13, 20, 38, 1], [21, 13, 21, 68, 1], [22, 13, 22, 59, 1],
+        [23, 9, 23, 10, 1], [27, 9, 27, 10, 1], [28, 13, 28, 107, 1], [29, 13, 29, 38, 1], [30, 13, 30, 62, 1],
+        [31, 13, 31, 65, 1], [32, 9, 32, 10, 1], [35, 9, 35, 10, 1], [36, 13, 36, 56, 1], [37, 9, 37, 10, 1]
+    ]);
+</script>
+</body>
+</html>

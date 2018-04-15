@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>d:\tests\csharp\tictactoe\noughtsandcrosses\nac\business\game.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+#region Imports
+
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Threading;
+using NAC.Framework;
+
+#endregion
+
+namespace NAC.Business
+{
+    public class Game : IGameActions
+    {
+        private IBoardActions _gameBoard;
+        private IPlayer _lastMoveBy;
+
+        public event EventHandler MovePerformed;
+
+        #region Constructors
+
+        /// &lt;summary&gt;
+        ///     Public constructor
+        /// &lt;/summary&gt;
+        public Game()
+            : this(new Player(&quot;Noughts&quot;, Board.SquareState.Noughts), new Player(&quot;Crosses&quot;, Board.SquareState.Crosses))
+        {
+        }
+
+        /// &lt;summary&gt;
+        ///     Public constructor
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;noughts&quot;&gt;The player that will be taking the Noughts&lt;/param&gt;
+        /// &lt;param name=&quot;crosses&quot;&gt;The player that will be taking the Crosses&lt;/param&gt;
+        public Game(IPlayer noughts, IPlayer crosses)
+        {
+            Noughts = noughts;
+            Crosses = crosses;
+            StartNewGame();
+        }
+
+        #endregion
+
+        #region Properties
+
+        public IPlayer Noughts { get; }
+        public IPlayer Crosses { get; }
+
+        /// &lt;summary&gt;
+        ///     Returns the CurrentPlayer taking a turn, defaulting to Crosses as a startup player
+        /// &lt;/summary&gt;
+        public IPlayer CurrentPlayer =&gt; _lastMoveBy == Crosses ? Noughts : Crosses;
+
+        public int TotalGames { get; private set; }
+
+        public IBoard GameBoard =&gt; _gameBoard;
+
+        public bool IsOver
+            =&gt;
+                IsWinner(GameBoard.NoughtsSquares) || IsWinner(GameBoard.CrossesSquares) ||
+                !GameBoard.AvailableSquares.Any();
+
+        public bool IsNoughtsWinner =&gt; IsWinner(GameBoard.NoughtsSquares);
+        public bool IsCrossesWinner =&gt; IsWinner(GameBoard.CrossesSquares);
+
+        public GameResults GameResult
+        {
+            get
+            {
+                if (IsNoughtsWinner)
+                {
+                    return GameResults.Noughts;
+                }
+                if (IsCrossesWinner)
+                {
+                    return GameResults.Crosses;
+                }
+
+                // ReSharper disable once ConvertIfStatementToReturnStatement
+                if (!GameBoard.AvailableSquares.Any())
+                    return GameResults.Draw;
+
+                return GameResults.Unfinished;
+            }
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// &lt;summary&gt;
+        ///     Validates if a list of Points contains a winning combination
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;pointsList&quot;&gt;The list of points to validate&lt;/param&gt;
+        /// &lt;returns&gt;True if a winning combination was found, false otherwise&lt;/returns&gt;
+        private bool IsWinner(IEnumerable&lt;Point&gt; pointsList)
+        {
+            var points = pointsList as Point[] ?? pointsList.ToArray();
+            return (points.Contains(new Point(0, 0)) &amp;&amp;
+                    points.Contains(new Point(0, 1)) &amp;&amp;
+                    points.Contains(new Point(0, 2))) ||
+                   (points.Contains(new Point(0, 0)) &amp;&amp;
+                    points.Contains(new Point(1, 0)) &amp;&amp;
+                    points.Contains(new Point(2, 0))) ||
+                   (points.Contains(new Point(1, 0)) &amp;&amp;
+                    points.Contains(new Point(1, 1)) &amp;&amp;
+                    points.Contains(new Point(1, 2))) ||
+                   (points.Contains(new Point(2, 0)) &amp;&amp;
+                    points.Contains(new Point(2, 1)) &amp;&amp;
+                    points.Contains(new Point(2, 2))) ||
+                   (points.Contains(new Point(2, 0)) &amp;&amp;
+                    points.Contains(new Point(1, 1)) &amp;&amp;
+                    points.Contains(new Point(0, 2))) ||
+                   (points.Contains(new Point(0, 0)) &amp;&amp;
+                    points.Contains(new Point(1, 1)) &amp;&amp;
+                    points.Contains(new Point(2, 2)));
+        }
+
+        /// &lt;summary&gt;
+        ///     Perform a move for a specified player, since this is not a publicly known method, it bypasses rule enforcing
+        ///     (Allows same player to do subsequent moves aka: GOD mode)
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;player&quot;&gt;The player performing the move&lt;/param&gt;
+        /// &lt;param name=&quot;coordinates&quot;&gt;The coordinates the player has chosen&lt;/param&gt;
+        void IGameActions.MakeAMove(IPlayer player, Point coordinates)
+        {
+            _gameBoard.MakeAMove(player, coordinates);
+
+            _lastMoveBy = player;
+        }
+
+        public void StartNewGame()
+        {
+            _gameBoard = new Board();
+            TotalGames++;
+        }
+
+        public Point GetRandomChoice()
+        {
+            return _gameBoard.GetRandomChoice();
+        }
+
+        /// &lt;summary&gt;
+        ///     Shorthand version of MakeAMove for ease of use
+        /// &lt;/summary&gt;
+        public void MakeAMove()
+        {
+            if (IsOver)
+                throw new GameOverException(
+                    &quot;You cannot make a move when the game has already finished. Call StartNewGame() first!&quot;);
+            ((IGameActions) this).MakeAMove(CurrentPlayer, GetRandomChoice());
+        }
+
+        public void PlayAGame(int sleepInterval)
+        {
+            while (!IsOver)
+            {
+                // Let current user make a move
+                MakeAMove();
+
+                Thread.Sleep(sleepInterval);
+
+                // Update printout
+                MovePerformed?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        #endregion
+    }
+
+    public enum GameResults
+    {
+        Noughts,
+        Crosses,
+        Draw,
+        Unfinished
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[27,15,27,119,1],[28,9,28,10,1],[29,9,29,10,1],[36,9,36,54,1],[37,9,37,10,1],[38,13,38,31,1],[39,13,39,31,1],[40,13,40,28,1],[41,9,41,10,1],[47,34,47,38,1],[48,34,48,38,1],[53,41,53,83,1],[55,33,55,37,1],[55,38,55,50,1],[57,36,57,46,1],[61,17,62,50,1],[64,40,64,74,1],[65,40,65,74,1],[70,13,70,14,1],[71,17,71,37,1],[72,17,72,18,1],[73,21,73,48,1],[75,17,75,37,1],[76,17,76,18,1],[77,21,77,48,1],[81,17,81,55,1],[82,21,82,45,1],[84,17,84,47,1],[85,13,85,14,1],[98,9,98,10,1],[99,13,99,72,1],[100,13,117,55,1],[118,9,118,10,1],[127,9,127,10,1],[128,13,128,55,1],[130,13,130,34,1],[131,9,131,10,1],[134,9,134,10,1],[135,13,135,38,1],[136,13,136,26,1],[137,9,137,10,1],[140,9,140,10,1],[141,13,141,49,1],[142,9,142,10,1],[148,9,148,10,1],[149,13,149,24,1],[150,17,151,110,1],[152,13,152,79,1],[153,9,153,10,1],[156,9,156,10,1],[158,13,158,14,1],[160,17,160,29,1],[162,17,162,45,1],[165,17,165,62,1],[166,13,166,14,1],[157,13,157,28,1],[167,9,167,10,1]]);
+    </script>
+  </body>
+</html>

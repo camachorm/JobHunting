@@ -3,3 +3,8 @@
 ################################################################################
 
 /PaymentsAPI/.vs
+/PaymentsAPI/packages
+/PaymentsAPI/PaymentsAPI.DeveloperTest/bin/Debug
+/PaymentsAPI/PaymentsAPI.DeveloperTest/obj/Debug
+/PaymentsAPI/PaymentsAPI.DeveloperTest.Tests/bin/Debug
+/PaymentsAPI/PaymentsAPI.DeveloperTest.Tests/obj/Debug
