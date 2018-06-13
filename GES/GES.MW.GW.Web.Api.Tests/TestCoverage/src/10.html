@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>D:\git\JobHunting\GES\GES.MW.GW.Web.Api\Models\ForecastModel.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Newtonsoft.Json.Linq;
+
+namespace GES.MW.GW.Web.Api.Models
+{
+    public class ForecastModel
+    {
+        private readonly JObject _forecast;
+
+        public ForecastModel(JObject forecast)
+        {
+            _forecast = forecast;
+        }
+
+        public int Date =&gt; _forecast.GetValue(&quot;dt&quot;).Value&lt;int&gt;();
+        public string DateText =&gt; _forecast.GetValue(&quot;dt_txt&quot;).Value&lt;string&gt;();
+        public double Temperature =&gt; ((JObject)_forecast.GetValue(&quot;main&quot;)).GetValue(&quot;temp&quot;).Value&lt;double&gt;();
+        public double MinTemperature  =&gt; ((JObject)_forecast.GetValue(&quot;main&quot;)).GetValue(&quot;temp_min&quot;).Value&lt;double&gt;();
+        public double MaxTemperature =&gt; ((JObject)_forecast.GetValue(&quot;main&quot;)).GetValue(&quot;temp_max&quot;).Value&lt;double&gt;();
+        public double Pressure  =&gt; ((JObject)_forecast.GetValue(&quot;main&quot;)).GetValue(&quot;pressure&quot;).Value&lt;double&gt;();
+        public double SeaLevel =&gt; ((JObject)_forecast.GetValue(&quot;main&quot;)).GetValue(&quot;sea_level&quot;).Value&lt;double&gt;();
+        public double GroundLevel =&gt; ((JObject)_forecast.GetValue(&quot;main&quot;)).GetValue(&quot;grnd_level&quot;).Value&lt;double&gt;();
+        public int Humidity =&gt; ((JObject)_forecast.GetValue(&quot;main&quot;)).GetValue(&quot;humidity&quot;).Value&lt;int&gt;();
+        public double TemperatureKf =&gt; ((JObject)_forecast.GetValue(&quot;main&quot;)).GetValue(&quot;temp_kf&quot;).Value&lt;double&gt;();
+        public int WeatherId =&gt; ((JObject)((JArray)_forecast.GetValue(&quot;weather&quot;))[0]).GetValue(&quot;id&quot;).Value&lt;int&gt;();
+        public string WeatherMain =&gt; ((JObject)((JArray)_forecast.GetValue(&quot;weather&quot;))[0]).GetValue(&quot;main&quot;).Value&lt;string&gt;();
+        public string WeatherDescription =&gt; ((JObject)((JArray)_forecast.GetValue(&quot;weather&quot;))[0]).GetValue(&quot;description&quot;).Value&lt;string&gt;();
+        public string WeatherIcon =&gt; ((JObject)((JArray)_forecast.GetValue(&quot;weather&quot;))[0]).GetValue(&quot;icon&quot;).Value&lt;string&gt;();
+        public int CloudsAll =&gt; ((JObject)_forecast.GetValue(&quot;clouds&quot;)).GetValue(&quot;all&quot;).Value&lt;int&gt;();
+        public double WindSpeed =&gt; ((JObject)_forecast.GetValue(&quot;wind&quot;)).GetValue(&quot;speed&quot;).Value&lt;double&gt;();
+        public double WindDegrees =&gt; ((JObject)_forecast.GetValue(&quot;wind&quot;)).GetValue(&quot;deg&quot;).Value&lt;double&gt;();
+        public string SysPod =&gt; ((JObject)_forecast.GetValue(&quot;sys&quot;)).GetValue(&quot;pod&quot;).Value&lt;string&gt;();
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[9,9,9,47,1],[10,9,10,10,1],[11,13,11,34,1],[12,9,12,10,1],[14,28,14,65,1],[15,35,15,79,1],[16,38,16,108,1],[17,42,17,116,1],[18,41,18,115,1],[19,36,19,110,1],[20,35,20,110,1],[21,38,21,114,1],[22,32,22,103,1],[23,40,23,113,1],[24,33,24,114,1],[25,38,25,124,1],[26,45,26,138,1],[27,38,27,124,1],[28,33,28,101,1],[29,36,29,107,1],[30,38,30,107,1],[31,33,31,101,1]]);
+    </script>
+  </body>
+</html>

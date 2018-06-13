@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html ng-app="GesAngularApp">
+<head>
+    <meta charset="utf-8" />
+    <title>Weather Forecast System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="Styles/site.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.0/angular.min.js"></script>
+    <script src="Scripts/angular/app.js"></script>
+    <script src="Scripts/angular/controllers/weatherController.js"></script>
+    <script src="Scripts/angular/services/weatherService.js"></script>
+</head>
+<body ng-controller="weatherController">
+    <div class="row selection">
+        <div class="col-12">
+            Please select a city:
+            <select id="cities" ng-options="city as city.Name for city in cities track by city.Id" ng-model="selectedCity" ng-change="SelectCity(value)"></select>
+        </div>
+    </div>
+    <div class="row data" ng-hide="ShowCityData()">
+        <div class="col-2 cityName">
+            {{selectedCityForecast.CityName}}
+        </div>
+        <div class="col-2 dayDisplay">
+            <div class="small_val_alert" title="Date">{{selectedCityForecast.ForecastDay1.DateText}}</div>
+            <div class="small_val" title="Description">{{selectedCityForecast.ForecastDay1.WeatherDescription}}</div>
+            <div class="small_val" title="Temperature">{{selectedCityForecast.ForecastDay1.Temperature}}</div>
+            <div class="small_val" title="Min/Max">{{selectedCityForecast.ForecastDay1.MinTemperature}}/{{selectedCityForecast.ForecastDay1.MaxTemperature}}</div>
+            <div class="small_val" title="Wind">{{selectedCityForecast.ForecastDay1.WindSpeed}} </div>
+            <div class="small_val_grey" title="Pressure">{{selectedCityForecast.ForecastDay1.Pressure}}</div>
+        </div>
+        <div class="col-2 dayDisplay">
+            <div class="small_val_alert" title="Date">{{selectedCityForecast.ForecastDay2.DateText}}</div>
+            <div class="small_val" title="Description">{{selectedCityForecast.ForecastDay2.WeatherDescription}}</div>
+            <div class="small_val" title="Temperature">{{selectedCityForecast.ForecastDay2.Temperature}}</div>
+            <div class="small_val" title="Min/Max">{{selectedCityForecast.ForecastDay2.MinTemperature}}/{{selectedCityForecast.ForecastDay2.MaxTemperature}}</div>
+            <div class="small_val" title="Wind">{{selectedCityForecast.ForecastDay2.WindSpeed}} </div>
+            <div class="small_val_grey" title="Pressure">{{selectedCityForecast.ForecastDay2.Pressure}}</div>
+        </div>
+        <div class="col-2 dayDisplay">
+            <div class="small_val_alert" title="Date">{{selectedCityForecast.ForecastDay3.DateText}}</div>
+            <div class="small_val" title="Description">{{selectedCityForecast.ForecastDay3.WeatherDescription}}</div>
+            <div class="small_val" title="Temperature">{{selectedCityForecast.ForecastDay3.Temperature}}</div>
+            <div class="small_val" title="Min/Max">{{selectedCityForecast.ForecastDay3.MinTemperature}}/{{selectedCityForecast.ForecastDay3.MaxTemperature}}</div>
+            <div class="small_val" title="Wind">{{selectedCityForecast.ForecastDay3.WindSpeed}} </div>
+            <div class="small_val_grey" title="Pressure">{{selectedCityForecast.ForecastDay3.Pressure}}</div>
+        </div>
+        <div class="col-2 dayDisplay">
+            <div class="small_val_alert" title="Date">{{selectedCityForecast.ForecastDay4.DateText}}</div>
+            <div class="small_val" title="Description">{{selectedCityForecast.ForecastDay4.WeatherDescription}}</div>
+            <div class="small_val" title="Temperature">{{selectedCityForecast.ForecastDay4.Temperature}}</div>
+            <div class="small_val" title="Min/Max">{{selectedCityForecast.ForecastDay4.MinTemperature}}/{{selectedCityForecast.ForecastDay4.MaxTemperature}}</div>
+            <div class="small_val" title="Wind">{{selectedCityForecast.ForecastDay4.WindSpeed}} </div>
+            <div class="small_val_grey" title="Pressure">{{selectedCityForecast.ForecastDay4.Pressure}}</div>
+        </div>
+        <div class="col-2 dayDisplay">
+            <div class="small_val_alert" title="Date">{{selectedCityForecast.ForecastDay5.DateText}}</div>
+            <div class="small_val" title="Description">{{selectedCityForecast.ForecastDay5.WeatherDescription}}</div>
+            <div class="small_val" title="Temperature">{{selectedCityForecast.ForecastDay5.Temperature}}</div>
+            <div class="small_val" title="Min/Max">{{selectedCityForecast.ForecastDay5.MinTemperature}}/{{selectedCityForecast.ForecastDay5.MaxTemperature}}</div>
+            <div class="small_val" title="Wind">{{selectedCityForecast.ForecastDay5.WindSpeed}} </div>
+            <div class="small_val_grey" title="Pressure">{{selectedCityForecast.ForecastDay5.Pressure}}</div>
+        </div>
+    </div>
+</body>
+</html>

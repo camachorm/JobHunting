@@ -1,0 +1,48 @@
+﻿.small_val_grey {
+    color: gray;
+}
+
+.small_val_alert {
+    color: red;
+    padding: 1em;
+    font-size: small !important;
+}
+
+.small_val, .small_val_grey, .small_val_alert {
+    display: block;
+    clear: left;
+    font-size: x-small;
+}
+
+.dayDisplay {
+    display: inline-block;
+    vertical-align: top;
+    padding-right: 5px;
+    text-align: center;
+    background-color: #eee;
+    font-size: x-small;
+}
+
+.data {
+    margin-top: 2em;
+    background-color: aliceblue;
+}
+
+.selection {
+    padding: 2em;
+    background-color: bisque;
+}
+
+.cityName {
+    display: flex;
+    /* ReSharper disable CssBrowserCompatibility */
+    align-items: center;
+    justify-items: center;
+    /* ReSharper restore CssBrowserCompatibility */
+}
+
+body {
+    font-size: 14px;
+    font-family: Verdana;
+    background-color: beige;
+}

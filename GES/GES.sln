@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2026
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GES.MW.GW.Web", "GES.MW.GW.Web.Api\GES.MW.GW.Web.csproj", "{816D9636-1BA8-4153-BCA8-93F6F7E4A895}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GES.MW.GW.Web.Tests", "GES.MW.GW.Web.Api.Tests\GES.MW.GW.Web.Tests.csproj", "{2EBE6B00-D185-413E-B2EA-2A31A867D788}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{816D9636-1BA8-4153-BCA8-93F6F7E4A895}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{816D9636-1BA8-4153-BCA8-93F6F7E4A895}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{816D9636-1BA8-4153-BCA8-93F6F7E4A895}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{816D9636-1BA8-4153-BCA8-93F6F7E4A895}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EBE6B00-D185-413E-B2EA-2A31A867D788}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EBE6B00-D185-413E-B2EA-2A31A867D788}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EBE6B00-D185-413E-B2EA-2A31A867D788}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EBE6B00-D185-413E-B2EA-2A31A867D788}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FF09C21A-9042-40A1-A3A8-E08792F1CB4D}
+	EndGlobalSection
+EndGlobal

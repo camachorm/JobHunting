@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>D:\git\JobHunting\GES\GES.MW.GW.Web.Api.Tests\Data\Services\ForecastServiceTest.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+#region Usings
+
+using System;
+using System.Linq;
+using GES.MW.GW.Web.Api.Data.Services;
+using NUnit.Framework;
+
+#endregion
+
+namespace GES.MW.GW.Web.Api.Tests.Data.Services
+{
+    [TestFixture]
+    public class ForecastServiceTest
+    {
+        private const int LondonId = 2643743;
+
+        [Test]
+        public void GetCityIdsTest()
+        {
+            var service = new ForecastService();
+            var result = service.GetCityIds().Result.ToList();
+            Assert.IsNotNull(result, &quot;result != null&quot;);
+            Assert.IsTrue(result.Any(), &quot;result.Any()&quot;);
+            Assert.IsTrue(result.Any(i =&gt; i.Name.Equals(&quot;london&quot;, StringComparison.InvariantCultureIgnoreCase) &amp;&amp; i.Id == LondonId), &quot;result.Any()&quot;);
+        }
+
+        [Test]
+        public void GetForecastTest()
+        {
+            // TODO: IRL I would use mocking to bypass the communication to the server on the unit tests, and use integrations tests to validate the end to end, but due to the time limitations I will skip mocking in this code
+            var service = new ForecastService();
+            var result = service.GetForecast(LondonId).Result;
+            Assert.IsNotNull(result, &quot;result != null&quot;);
+            Assert.IsNotNull(result.ForecastDay1, &quot;result != null&quot;);
+            Assert.IsNotNull(result.ForecastDay2, &quot;result.ForecastDay2 != null&quot;);
+            Assert.IsNotNull(result.ForecastDay3, &quot;result.ForecastDay3 != null&quot;);
+            Assert.IsNotNull(result.ForecastDay4, &quot;result.ForecastDay4 != null&quot;);
+            Assert.IsNotNull(result.ForecastDay5, &quot;result.ForecastDay5 != null&quot;);
+            // Avoiding strong typing every single validation, reflection is a nifty tool to use in cirurgical spots
+            Assert.DoesNotThrow(() =&gt; ReadAllProperties(result, result.ForecastDay1, result.ForecastDay2, result.ForecastDay3, result.ForecastDay4, result.ForecastDay5));
+        }
+
+        private void ReadAllProperties(params object[] models)
+        {
+            foreach (var model in models)
+            {
+                ReadAllProperties(model);
+            }
+        }
+
+        private void ReadAllProperties(object model)
+        {
+            foreach (var property in model.GetType().GetProperties())
+            {
+                property.GetValue(model);
+            }
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[19,9,19,10,1],[20,13,20,49,1],[21,13,21,63,1],[22,13,22,56,1],[23,13,23,57,1],[24,13,24,43,1],[24,43,24,131,1],[24,131,24,150,1],[24,13,24,150,1],[25,9,25,10,1],[29,9,29,10,1],[31,13,31,49,1],[32,13,32,63,1],[33,13,33,56,1],[34,13,34,69,1],[35,13,35,82,1],[36,13,36,82,1],[37,13,37,82,1],[38,13,38,82,1],[40,13,40,39,1],[40,39,40,169,1],[40,169,40,171,1],[40,13,40,171,1],[41,9,41,10,1],[44,9,44,10,1],[45,13,45,20,1],[45,22,45,31,1],[45,32,45,34,1],[45,35,45,41,1],[46,13,46,14,1],[47,17,47,42,1],[48,13,48,14,1],[49,9,49,10,1],[52,9,52,10,1],[53,13,53,20,1],[53,22,53,34,1],[53,35,53,37,1],[53,38,53,69,1],[54,13,54,14,1],[55,17,55,42,1],[56,13,56,14,1],[57,9,57,10,1]]);
+    </script>
+  </body>
+</html>
